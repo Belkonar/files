@@ -1,0 +1,9 @@
+BasedOnStyle: LLVM
+Language: Cpp
+IndentWidth: 4
+MaxEmptyLinesToKeep: 1
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AccessModifierOffset: -4
+BreakTemplateDeclarations: Yes
+ColumnLimit: 120
