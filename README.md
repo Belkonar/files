@@ -1,1 +1,3 @@
 tbd
+
+[Thoughts](./thoughts.md)
