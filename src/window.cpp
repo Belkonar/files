@@ -8,9 +8,17 @@
 #include <QtWidgets/qtreeview.h>
 
 Window::Window() {
-    this->setAttribute(Qt::WA_DeleteOnClose);
-
     this->currentPath = QDir::homePath();
+    this->init();
+}
+
+Window::Window(QString path) {
+    this->currentPath = path;
+    this->init();
+}
+
+void Window::init() {
+    this->setAttribute(Qt::WA_DeleteOnClose); // Super important;
 
     this->setMinimumSize(300, 200);
 

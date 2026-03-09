@@ -8,4 +8,9 @@ public:
     QString currentPath;
 
     Window();
+    Window(QString path);
+
+private:
+    // All the constructors call this cause I'm dumb and this makes it cleaner.
+    void init();
 };
