@@ -14,11 +14,13 @@ if("$ENV{MACOS_SHOULD_BUNDLE}" STREQUAL "true")
   message("Bundling MacThing")
 endif()
 
-set(sources
-    src/main.cpp
+set(SOURCES
+    ./src/main.cpp
+    ./src/window.cpp
+    ./src/window.hpp
 )
 
-qt_add_executable(files ${EXE_EXTRAS} ${sources})
+qt_add_executable(files ${EXE_EXTRAS} ${SOURCES})
 
 target_link_libraries(files
     PRIVATE

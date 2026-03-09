@@ -1,0 +1,42 @@
+#include "./window.hpp"
+
+#include <QtCore/qdir.h>
+#include <QtGui/qfilesystemmodel.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qtreeview.h>
+
+Window::Window() {
+    this->currentPath = QDir::homePath();
+
+    this->setMinimumSize(300, 200);
+
+    this->resize(600, 400);
+
+    auto container = new QWidget();
+
+    auto vbox = new QVBoxLayout(container);
+    vbox->setContentsMargins(0, 5, 0, 5);
+    // set_no_spacing(vbox);
+
+    auto line_edit = new QLineEdit();
+    line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    line_edit->setFrame(false);
+    line_edit->setText(this->currentPath);
+
+    auto rows = 5;
+    QStringList table_headers("File");
+
+    auto model = new QFileSystemModel();
+
+    model->setRootPath(this->currentPath);
+    auto tree = new QTreeView();
+    tree->setModel(model);
+    tree->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    tree->setRootIndex(model->index(this->currentPath));
+
+    vbox->addWidget(line_edit);
+    vbox->addWidget(tree);
+
+    this->setCentralWidget(container);
+}
