@@ -30,7 +30,7 @@ std::unique_ptr<QMainWindow> render() {
     QStringList table_headers("File");
 
     QFileSystemModel *model = new QFileSystemModel();
-    std::cout << QDir::homePath().toStdString() << "\n";
+    // std::cout << QDir::homePath().toStdString() << "\n";
     model->setRootPath(home);
     QTreeView *tree = new QTreeView();
     tree->setModel(model);
