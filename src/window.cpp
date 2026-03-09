@@ -1,12 +1,15 @@
 #include "./window.hpp"
 
 #include <QtCore/qdir.h>
+#include <QtCore/qnamespace.h>
 #include <QtGui/qfilesystemmodel.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlineedit.h>
 #include <QtWidgets/qtreeview.h>
 
 Window::Window() {
+    this->setAttribute(Qt::WA_DeleteOnClose);
+
     this->currentPath = QDir::homePath();
 
     this->setMinimumSize(300, 200);
