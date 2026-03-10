@@ -28,15 +28,14 @@ void Window::init() {
 
     auto vbox = new QVBoxLayout(container);
     vbox->setContentsMargins(0, 5, 0, 5);
-    // set_no_spacing(vbox);
 
-    auto line_edit = new QLineEdit();
-    line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    line_edit->setFrame(false);
-    line_edit->setText(this->currentPath);
+    auto lineEdit = new QLineEdit();
+    lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    lineEdit->setFrame(false);
+    lineEdit->setText(this->currentPath);
 
     auto rows = 5;
-    QStringList table_headers("File");
+    QStringList tableHeaders("File");
 
     auto model = new QFileSystemModel();
 
@@ -46,7 +45,7 @@ void Window::init() {
     tree->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     tree->setRootIndex(model->index(this->currentPath));
 
-    vbox->addWidget(line_edit);
+    vbox->addWidget(lineEdit);
     vbox->addWidget(tree);
 
     this->setCentralWidget(container);

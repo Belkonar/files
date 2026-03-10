@@ -22,8 +22,7 @@ std::unique_ptr<QMainWindow> render() {
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    auto w = new Window();
-    w->show();
+    (new Window())->show();
 
     return a.exec();
 }
