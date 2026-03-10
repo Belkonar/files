@@ -3,8 +3,11 @@
 #include <QtCore/qdir.h>
 #include <QtCore/qnamespace.h>
 #include <QtGui/qfilesystemmodel.h>
+#include <QtGui/qicon.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qtoolbutton.h>
 #include <QtWidgets/qtreeview.h>
 
 Window::Window() {
@@ -28,6 +31,11 @@ void Window::init() {
 
     auto vbox = new QVBoxLayout(container);
     vbox->setContentsMargins(0, 5, 0, 5);
+
+    auto iconButton = new QToolButton();
+    // iconButton->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::AddressBookNew));
+    iconButton->setArrowType(Qt::UpArrow);
+    vbox->addWidget(iconButton);
 
     auto lineEdit = new QLineEdit();
     lineEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
