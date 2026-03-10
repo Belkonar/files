@@ -1,6 +1,7 @@
 #include "./window.hpp"
 
 // Don't get rid of this, it fixes clangd and helps with finding the classes.
+#include <QtGui/qicon.h>
 #include <QtWidgets>
 
 void make_fixed(QWidget *w) {
@@ -21,6 +22,8 @@ std::unique_ptr<QMainWindow> render() {
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+
+    qInfo("theme %s", qUtf8Printable(QIcon::themeName()));
 
     (new Window())->show();
 
