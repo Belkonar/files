@@ -9,10 +9,7 @@ qt_standard_project_setup()
 
 set(EXE_EXTRAS WIN32)
 
-if("$ENV{MACOS_SHOULD_BUNDLE}" STREQUAL "true")
-  set(EXE_EXTRAS ${EXE_EXTRAS} MACOSX_BUNDLE)
-  message("Bundling MacThing")
-endif()
+set(EXE_EXTRAS ${EXE_EXTRAS} MACOSX_BUNDLE)
 
 set(SOURCES
     ./src/main.cpp
