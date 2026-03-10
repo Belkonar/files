@@ -18,7 +18,7 @@ Window::Window(QString path) {
 }
 
 void Window::init() {
-    this->setAttribute(Qt::WA_DeleteOnClose); // Super important;
+    this->setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.;
 
     this->setMinimumSize(300, 200);
 
@@ -30,6 +30,7 @@ void Window::init() {
     vbox->setContentsMargins(0, 5, 0, 5);
 
     auto lineEdit = new QLineEdit();
+    lineEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
     lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     lineEdit->setFrame(false);
     lineEdit->setText(this->currentPath);
