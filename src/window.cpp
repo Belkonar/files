@@ -49,13 +49,19 @@ void Window::init() {
     auto model = new QFileSystemModel();
 
     model->setRootPath(this->currentPath);
-    auto tree = new QTreeView();
-    tree->setModel(model);
-    tree->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    tree->setRootIndex(model->index(this->currentPath));
+
+    this->treeView = new QTreeView();
+    this->treeView->setExpandsOnDoubleClick(false);
+    this->treeView->setModel(model);
+    this->treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->treeView->setRootIndex(model->index(this->currentPath));
 
     vbox->addWidget(lineEdit);
-    vbox->addWidget(tree);
+    vbox->addWidget(this->treeView);
 
     this->setCentralWidget(container);
+
+    // setup slots
+
+    connect(this->treeView, &QTreeView::doubleClicked, this, &Window::onItemClicked);
 }
