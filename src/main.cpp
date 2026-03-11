@@ -14,14 +14,14 @@ void set_no_spacing(QBoxLayout *layout) {
     layout->setSpacing(0);
 }
 
-std::unique_ptr<QMainWindow> render() {
+auto render() -> std::unique_ptr<QMainWindow> {
     auto home = QDir::homePath();
     auto window = std::make_unique<QMainWindow>();
 
     return std::move(window);
 }
 
-int main(int argc, char *argv[]) {
+auto main(int argc, char *argv[]) -> int {
     QApplication a(argc, argv);
 
     qInfo("path %s", qUtf8Printable(QDir::homePath()));
