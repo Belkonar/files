@@ -46,15 +46,15 @@ void Window::init() {
     auto rows = 5;
     QStringList tableHeaders("File");
 
-    auto model = new QFileSystemModel();
+    this->fileModel = new QFileSystemModel();
 
-    model->setRootPath(this->currentPath);
+    this->fileModel->setRootPath(this->currentPath);
 
     this->treeView = new QTreeView();
     this->treeView->setExpandsOnDoubleClick(false);
-    this->treeView->setModel(model);
+    this->treeView->setModel(this->fileModel);
     this->treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    this->treeView->setRootIndex(model->index(this->currentPath));
+    this->treeView->setRootIndex(this->fileModel->index(this->currentPath));
 
     vbox->addWidget(lineEdit);
     vbox->addWidget(this->treeView);
@@ -63,5 +63,5 @@ void Window::init() {
 
     // setup slots
 
-    connect(this->treeView, &QTreeView::doubleClicked, this, &Window::onItemClicked);
+    connect(this->treeView, &QTreeView::doubleClicked, this, &Window::itemDoubleClicked);
 }
