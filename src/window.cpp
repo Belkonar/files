@@ -12,26 +12,27 @@
 #include <QtWidgets/qtreeview.h>
 
 Window::Window() {
-    this->currentPath = QDir::homePath();
-    this->init();
+    currentPath = QDir::homePath();
+    init();
 }
 
 Window::Window(QString path) {
-    this->currentPath = path;
-    this->init();
+    currentPath = path;
+    init();
 }
 
 void Window::updatePath(QString path) {
-    this->currentPath = path;
+    currentPath = path;
     treeView->setRootIndex(fileModel->index(currentPath));
+    pathEdit->setText(currentPath);
 }
 
 void Window::init() {
-    this->setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.;
+    setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.;
 
-    this->setMinimumSize(300, 200);
+    setMinimumSize(300, 200);
 
-    this->resize(600, 400);
+    resize(600, 400);
 
     auto container = new QWidget();
 
@@ -43,34 +44,34 @@ void Window::init() {
     iconButton->setArrowType(Qt::UpArrow);
     vbox->addWidget(iconButton);
 
-    auto lineEdit = new QLineEdit();
-    lineEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
-    lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    lineEdit->setFrame(false);
-    lineEdit->setText(this->currentPath);
+    pathEdit = new QLineEdit();
+    pathEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
+    pathEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    pathEdit->setFrame(false);
+    pathEdit->setText(currentPath);
 
     auto rows = 5;
     QStringList tableHeaders("File");
 
-    this->fileModel = new QFileSystemModel();
+    fileModel = new QFileSystemModel();
 
-    this->fileModel->setRootPath(this->currentPath);
+    fileModel->setRootPath(currentPath);
 
-    this->treeView = new FileList();
-    this->treeView->setExpandsOnDoubleClick(false);
-    this->treeView->setModel(this->fileModel);
-    this->treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    this->treeView->setRootIndex(this->fileModel->index(this->currentPath));
+    treeView = new FileList();
+    treeView->setExpandsOnDoubleClick(false);
+    treeView->setModel(fileModel);
+    treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    treeView->setRootIndex(fileModel->index(currentPath));
 
-    vbox->addWidget(lineEdit);
-    vbox->addWidget(this->treeView);
+    vbox->addWidget(pathEdit);
+    vbox->addWidget(treeView);
 
-    this->setCentralWidget(container);
+    setCentralWidget(container);
 
     // setup slots
 
-    connect(this->treeView, &FileList::doubleClicked, this, &Window::itemDoubleClicked);
-    connect(this->treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
+    connect(treeView, &FileList::doubleClicked, this, &Window::itemDoubleClicked);
+    connect(treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
 }
 
 void Window::itemDoubleClicked(const QModelIndex &index) {
@@ -78,7 +79,7 @@ void Window::itemDoubleClicked(const QModelIndex &index) {
 
     qDebug() << fileModel->filePath(index) << "is dir:" << fileModel->isDir(index);
 
-    if (this->fileModel->isDir(index)) {
+    if (fileModel->isDir(index)) {
         updatePath(fileModel->filePath(index));
     }
 }
@@ -86,9 +87,9 @@ void Window::itemDoubleClicked(const QModelIndex &index) {
 void Window::itemMiddleClicked(const QModelIndex &index) {
     if (!index.isValid()) return;
 
-    qDebug() << this->fileModel->filePath(index) << "is dir:" << this->fileModel->isDir(index);
+    qDebug() << fileModel->filePath(index) << "is dir:" << fileModel->isDir(index);
 
-    if (this->fileModel->isDir(index)) {
-        (new Window(this->fileModel->filePath(index)))->show();
+    if (fileModel->isDir(index)) {
+        (new Window(fileModel->filePath(index)))->show();
     }
 }
