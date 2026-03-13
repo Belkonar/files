@@ -46,6 +46,10 @@ void Window::init() {
     toolbar->setIconSize(QSize(toolSize, toolSize));
     addToolBar(toolbar);
 
+    auto homeAction = new QAction("Home", this);
+    homeAction->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::GoHome));
+    toolbar->addAction(homeAction);
+
     auto upAction = new QAction("Up", this);
     upAction->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::GoUp));
     toolbar->addAction(upAction);
@@ -86,6 +90,7 @@ void Window::init() {
     connect(pathEdit, &QLineEdit::returnPressed, this, &Window::pathEnter);
 
     connect(upAction, &QAction::triggered, this, &Window::upTriggered);
+    connect(homeAction, &QAction::triggered, this, &Window::homeTriggered);
 }
 
 void Window::itemDoubleClicked(const QModelIndex &index) {
@@ -129,4 +134,8 @@ void Window::upTriggered(bool checked) {
     if (p.exists()) {
         updatePath(p.absolutePath());
     }
+}
+
+void Window::homeTriggered(bool checked) {
+    updatePath(QDir::homePath());
 }

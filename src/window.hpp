@@ -38,4 +38,5 @@ private slots:
     void pathEnter();
 
     void upTriggered(bool checked);
+    void homeTriggered(bool checked);
 };
