@@ -4,6 +4,7 @@
 #include <QtCore/qdir.h>
 #include <QtCore/qlogging.h>
 #include <QtCore/qnamespace.h>
+#include <QtCore/qsettings.h>
 #include <QtGui/qaction.h>
 #include <QtGui/qfilesystemmodel.h>
 #include <QtGui/qicon.h>
@@ -33,13 +34,13 @@ void Window::updatePath(QString path) {
 }
 
 void Window::init() {
+    QSettings settings;
     setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.
 
     setMinimumSize(300, 200);
-
     resize(600, 400);
 
-    int toolSize = 18;
+    int toolSize = settings.value("settings/toolbarIconSize", 20).toInt();
 
     toolbar = new QToolBar(this);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
