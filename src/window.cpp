@@ -64,7 +64,8 @@ void Window::init() {
 
     // setup slots
 
-    connect(this->treeView, &QTreeView::doubleClicked, this, &Window::itemDoubleClicked);
+    connect(this->treeView, &FileList::doubleClicked, this, &Window::itemDoubleClicked);
+    connect(this->treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
 }
 
 void Window::itemDoubleClicked(const QModelIndex &index) {

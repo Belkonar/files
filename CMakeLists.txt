@@ -15,6 +15,7 @@ set(SOURCES
     ./src/main.cpp
     ./src/window.cpp
     ./src/window.hpp
+    ./src/file_list.hpp
 )
 
 qt_add_executable(files ${EXE_EXTRAS} ${SOURCES})
