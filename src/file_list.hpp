@@ -16,19 +16,24 @@ class FileList : public QTreeView {
 signals:
     void middleClicked(const QModelIndex &index);
 
+private:
+    bool isValidIndex(QPersistentModelIndex *index) {
+        bool isValid = (index->row() >= 0) && (index->column() >= 0) && (index->model() == model());
+
+        return isValid;
+    }
+
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override {
         // qDebug() << event;
         // test if it's valid, and also a middle mouse. If it is send it, otherwise pass along.
+        QPoint pos = event->position().toPoint();
+        QPersistentModelIndex index = indexAt(pos);
 
-        if (event->button() == Qt::MiddleButton) {
-            // TODO: the validation
-            QPoint pos = event->position().toPoint();
-            QPersistentModelIndex index = indexAt(pos);
-
+        if (event->button() == Qt::MiddleButton && isValidIndex(&index)) {
             emit middleClicked(index);
-        } else {
-            QTreeView::mouseReleaseEvent(event);
         }
+
+        QTreeView::mouseReleaseEvent(event);
     }
 };
