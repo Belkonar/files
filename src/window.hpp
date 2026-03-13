@@ -6,6 +6,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/qtreeview.h>
 
+#include "./file_list.hpp"
+
 class Window : public QMainWindow {
 public:
     QString currentPath;
@@ -14,20 +16,13 @@ public:
     Window(QString path);
 
 private:
-    QTreeView *treeView;
+    FileList *treeView;
     QFileSystemModel *fileModel;
 
     // All the constructors call this cause I'm dumb and this makes it cleaner.
     void init();
 
 private slots:
-    void itemDoubleClicked(const QModelIndex &index) {
-        if (!index.isValid()) return;
-
-        qDebug() << this->fileModel->filePath(index) << "is dir:" << this->fileModel->isDir(index);
-
-        if (this->fileModel->isDir(index)) {
-            (new Window(this->fileModel->filePath(index)))->show();
-        }
-    }
+    void itemDoubleClicked(const QModelIndex &index);
+    void itemMiddleClicked(const QModelIndex &index);
 };

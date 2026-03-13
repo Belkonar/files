@@ -1,4 +1,5 @@
 #include "./window.hpp"
+#include "file_list.hpp"
 
 #include <QtCore/qdir.h>
 #include <QtCore/qnamespace.h>
@@ -50,7 +51,7 @@ void Window::init() {
 
     this->fileModel->setRootPath(this->currentPath);
 
-    this->treeView = new QTreeView();
+    this->treeView = new FileList();
     this->treeView->setExpandsOnDoubleClick(false);
     this->treeView->setModel(this->fileModel);
     this->treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -64,4 +65,20 @@ void Window::init() {
     // setup slots
 
     connect(this->treeView, &QTreeView::doubleClicked, this, &Window::itemDoubleClicked);
+}
+
+void Window::itemDoubleClicked(const QModelIndex &index) {
+    if (!index.isValid()) return;
+
+    qDebug() << this->fileModel->filePath(index) << "is dir:" << this->fileModel->isDir(index);
+}
+
+void Window::itemMiddleClicked(const QModelIndex &index) {
+    if (!index.isValid()) return;
+
+    qDebug() << this->fileModel->filePath(index) << "is dir:" << this->fileModel->isDir(index);
+
+    if (this->fileModel->isDir(index)) {
+        (new Window(this->fileModel->filePath(index)))->show();
+    }
 }
