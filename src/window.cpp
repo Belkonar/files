@@ -2,6 +2,7 @@
 #include "file_list.hpp"
 
 #include <QtCore/qdir.h>
+#include <QtCore/qlogging.h>
 #include <QtCore/qnamespace.h>
 #include <QtGui/qfilesystemmodel.h>
 #include <QtGui/qicon.h>
@@ -72,6 +73,7 @@ void Window::init() {
 
     connect(treeView, &FileList::doubleClicked, this, &Window::itemDoubleClicked);
     connect(treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
+    connect(pathEdit, &QLineEdit::returnPressed, this, &Window::pathEnter);
 }
 
 void Window::itemDoubleClicked(const QModelIndex &index) {
@@ -91,5 +93,18 @@ void Window::itemMiddleClicked(const QModelIndex &index) {
 
     if (fileModel->isDir(index)) {
         (new Window(fileModel->filePath(index)))->show();
+    }
+}
+
+void Window::pathEnter() {
+    qDebug() << "enter pressed";
+
+    QDir target(pathEdit->text());
+
+    if (target.exists()) {
+        updatePath(target.absolutePath());
+    } else {
+        // TODO: alerting
+        qDebug() << "target" << target << "does not exist";
     }
 }

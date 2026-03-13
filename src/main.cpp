@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    qInfo() << "path:" << QDir::homePath();
+    qInfo() << "path:" << QDir::homePath() << QDir::drives();
 
     (new Window())->show();
 

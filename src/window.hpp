@@ -29,4 +29,6 @@ private:
 private slots:
     void itemDoubleClicked(const QModelIndex &index);
     void itemMiddleClicked(const QModelIndex &index);
+
+    void pathEnter();
 };
