@@ -32,4 +32,6 @@ private slots:
     void itemMiddleClicked(const QModelIndex &index);
 
     void pathEnter();
+
+    void upTriggered(QAction *action);
 };

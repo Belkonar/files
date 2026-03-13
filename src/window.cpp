@@ -4,6 +4,7 @@
 #include <QtCore/qdir.h>
 #include <QtCore/qlogging.h>
 #include <QtCore/qnamespace.h>
+#include <QtGui/qaction.h>
 #include <QtGui/qfilesystemmodel.h>
 #include <QtGui/qicon.h>
 #include <QtWidgets/qboxlayout.h>
@@ -23,9 +24,12 @@ Window::Window(QString path) {
 }
 
 void Window::updatePath(QString path) {
-    currentPath = path;
-    treeView->setRootIndex(fileModel->index(currentPath));
-    pathEdit->setText(currentPath);
+    QDir p(path);
+    if (p.exists()) {
+        currentPath = path;
+        treeView->setRootIndex(fileModel->index(currentPath));
+        pathEdit->setText(currentPath);
+    }
 }
 
 void Window::init() {
@@ -40,7 +44,9 @@ void Window::init() {
     auto vbox = new QVBoxLayout(container);
     vbox->setContentsMargins(0, 5, 0, 5);
 
+    auto upAction = new QAction("Up", this);
     upButton = new QToolButton();
+    upButton->setDefaultAction(upAction);
     // iconButton->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::AddressBookNew));
     upButton->setArrowType(Qt::UpArrow);
     vbox->addWidget(upButton);
@@ -74,6 +80,8 @@ void Window::init() {
     connect(treeView, &FileList::doubleClicked, this, &Window::itemDoubleClicked);
     connect(treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
     connect(pathEdit, &QLineEdit::returnPressed, this, &Window::pathEnter);
+
+    connect(upButton, &QToolButton::triggered, this, &Window::upTriggered);
 }
 
 void Window::itemDoubleClicked(const QModelIndex &index) {
@@ -106,5 +114,15 @@ void Window::pathEnter() {
     } else {
         // TODO: alerting
         qDebug() << "target" << target << "does not exist";
+    }
+}
+
+void Window::upTriggered(QAction *action) {
+    QDir p(currentPath);
+
+    p.cdUp();
+
+    if (p.exists()) {
+        updatePath(p.absolutePath());
     }
 }
