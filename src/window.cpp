@@ -21,6 +21,11 @@ Window::Window(QString path) {
     this->init();
 }
 
+void Window::updatePath(QString path) {
+    this->currentPath = path;
+    treeView->setRootIndex(fileModel->index(currentPath));
+}
+
 void Window::init() {
     this->setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.;
 
@@ -71,7 +76,11 @@ void Window::init() {
 void Window::itemDoubleClicked(const QModelIndex &index) {
     if (!index.isValid()) return;
 
-    qDebug() << this->fileModel->filePath(index) << "is dir:" << this->fileModel->isDir(index);
+    qDebug() << fileModel->filePath(index) << "is dir:" << fileModel->isDir(index);
+
+    if (this->fileModel->isDir(index)) {
+        updatePath(fileModel->filePath(index));
+    }
 }
 
 void Window::itemMiddleClicked(const QModelIndex &index) {

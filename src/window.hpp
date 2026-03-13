@@ -15,6 +15,8 @@ public:
     Window();
     Window(QString path);
 
+    void updatePath(QString path);
+
 private:
     FileList *treeView;
     QFileSystemModel *fileModel;

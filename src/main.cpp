@@ -5,26 +5,10 @@
 #include <QtGui/qicon.h>
 #include <QtWidgets>
 
-void make_fixed(QWidget *w) {
-    w->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-}
-
-void set_no_spacing(QBoxLayout *layout) {
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(0);
-}
-
-auto render() -> std::unique_ptr<QMainWindow> {
-    auto home = QDir::homePath();
-    auto window = std::make_unique<QMainWindow>();
-
-    return std::move(window);
-}
-
-auto main(int argc, char *argv[]) -> int {
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    qInfo("path %s", qUtf8Printable(QDir::homePath()));
+    qInfo() << "path:" << QDir::homePath();
 
     (new Window())->show();
 
