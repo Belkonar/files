@@ -8,6 +8,8 @@
 #include <QtWidgets/qabstractitemview.h>
 #include <QtWidgets/qtreeview.h>
 
+// NOTE: This is currently a single header due simply to it being tiny. I may rework a bunch of it later.
+// and If I do it'll be split apart.
 class FileList : public QTreeView {
     Q_OBJECT
 
