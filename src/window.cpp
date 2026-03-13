@@ -28,7 +28,7 @@ void Window::updatePath(QString path) {
 }
 
 void Window::init() {
-    setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.;
+    setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.
 
     setMinimumSize(300, 200);
 
