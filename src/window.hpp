@@ -22,6 +22,7 @@ private:
     FileList *treeView;
     QFileSystemModel *fileModel;
     QLineEdit *pathEdit;
+    QToolButton *upButton;
 
     // All the constructors call this cause I'm dumb and this makes it cleaner.
     void init();

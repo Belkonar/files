@@ -40,10 +40,10 @@ void Window::init() {
     auto vbox = new QVBoxLayout(container);
     vbox->setContentsMargins(0, 5, 0, 5);
 
-    auto iconButton = new QToolButton();
+    upButton = new QToolButton();
     // iconButton->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::AddressBookNew));
-    iconButton->setArrowType(Qt::UpArrow);
-    vbox->addWidget(iconButton);
+    upButton->setArrowType(Qt::UpArrow);
+    vbox->addWidget(upButton);
 
     pathEdit = new QLineEdit();
     pathEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
