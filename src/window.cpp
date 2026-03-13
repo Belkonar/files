@@ -39,17 +39,21 @@ void Window::init() {
 
     resize(600, 400);
 
+    int toolSize = 18;
+
+    toolbar = new QToolBar(this);
+    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolbar->setIconSize(QSize(toolSize, toolSize));
+    addToolBar(toolbar);
+
+    auto upAction = new QAction("Up", this);
+    upAction->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::GoUp));
+    toolbar->addAction(upAction);
+
     auto container = new QWidget();
 
     auto vbox = new QVBoxLayout(container);
     vbox->setContentsMargins(0, 5, 0, 5);
-
-    auto upAction = new QAction("Up", this);
-    upButton = new QToolButton();
-    upButton->setDefaultAction(upAction);
-    // iconButton->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::AddressBookNew));
-    upButton->setArrowType(Qt::UpArrow);
-    vbox->addWidget(upButton);
 
     pathEdit = new QLineEdit();
     pathEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
@@ -81,7 +85,7 @@ void Window::init() {
     connect(treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
     connect(pathEdit, &QLineEdit::returnPressed, this, &Window::pathEnter);
 
-    connect(upButton, &QToolButton::triggered, this, &Window::upTriggered);
+    connect(upAction, &QAction::triggered, this, &Window::upTriggered);
 }
 
 void Window::itemDoubleClicked(const QModelIndex &index) {
@@ -117,7 +121,7 @@ void Window::pathEnter() {
     }
 }
 
-void Window::upTriggered(QAction *action) {
+void Window::upTriggered(bool checked) {
     QDir p(currentPath);
 
     p.cdUp();

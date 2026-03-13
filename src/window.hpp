@@ -6,6 +6,7 @@
 #include <QtGui/qfilesystemmodel.h>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qtoolbar.h>
 #include <QtWidgets/qtreeview.h>
 
 #include "./file_list.hpp"
@@ -25,7 +26,7 @@ private:
     FileList *treeView;
     QFileSystemModel *fileModel;
     QLineEdit *pathEdit;
-    QToolButton *upButton;
+    QToolBar *toolbar;
 
     // All the constructors call this cause I'm dumb and this makes it cleaner.
     void init();
@@ -36,5 +37,5 @@ private slots:
 
     void pathEnter();
 
-    void upTriggered(QAction *action);
+    void upTriggered(bool checked);
 };
