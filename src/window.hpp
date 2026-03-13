@@ -2,6 +2,7 @@
 
 #include <QtCore/qabstractitemmodel.h>
 #include <QtCore/qstring.h>
+#include <QtCore/qtmetamacros.h>
 #include <QtGui/qfilesystemmodel.h>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/qlineedit.h>
@@ -10,6 +11,8 @@
 #include "./file_list.hpp"
 
 class Window : public QMainWindow {
+    Q_OBJECT
+
 public:
     QString currentPath;
 
