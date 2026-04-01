@@ -26,10 +26,8 @@ private:
     FileList *treeView;
     QFileSystemModel *fileModel;
     QLineEdit *pathEdit;
-    QToolBar *toolbar;
 
-    // All the constructors call this cause I'm dumb and this makes it cleaner.
-    void init();
+    void setup();
 
 private slots:
     void itemDoubleClicked(const QModelIndex &index);

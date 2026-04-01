@@ -16,12 +16,12 @@
 
 Window::Window() {
     currentPath = QDir::homePath();
-    init();
+    setup();
 }
 
 Window::Window(QString path) {
     currentPath = path;
-    init();
+    setup();
 }
 
 void Window::updatePath(QString path) {
@@ -33,63 +33,60 @@ void Window::updatePath(QString path) {
     }
 }
 
-void Window::init() {
+void Window::setup() {
+    // start preamble
     QSettings settings;
-    setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.
 
+    setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.
     setMinimumSize(300, 200);
     resize(600, 400);
 
     int toolSize = settings.value("settings/toolbarIconSize", 20).toInt();
 
-    toolbar = new QToolBar(this);
-    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    toolbar->setIconSize(QSize(toolSize, toolSize));
-    addToolBar(toolbar);
-
+    // start actions
     auto homeAction = new QAction("Home", this);
     homeAction->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::GoHome));
-    toolbar->addAction(homeAction);
 
     auto upAction = new QAction("Up", this);
     upAction->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::GoUp));
-    toolbar->addAction(upAction);
 
+    // init widgets
     auto container = new QWidget();
-
+    auto toolbar = new QToolBar();
     auto vbox = new QVBoxLayout(container);
-    vbox->setContentsMargins(0, 5, 0, 5);
-
+    fileModel = new QFileSystemModel();
+    treeView = new FileList();
     pathEdit = new QLineEdit();
-    pathEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
-    pathEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    pathEdit->setFrame(false);
+
+    // layouts
+    vbox->addWidget(toolbar);
+    vbox->setContentsMargins(0, 5, 0, 5);
+    vbox->addWidget(treeView);
+
+    setCentralWidget(container);
+
+    // configure widgets
     pathEdit->setText(currentPath);
 
-    auto rows = 5;
-    QStringList tableHeaders("File");
-
-    fileModel = new QFileSystemModel();
+    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolbar->setIconSize(QSize(toolSize, toolSize));
+    toolbar->addAction(homeAction);
+    toolbar->addAction(upAction);
+    toolbar->addWidget(pathEdit);
 
     fileModel->setRootPath(currentPath);
 
-    treeView = new FileList();
     treeView->setExpandsOnDoubleClick(false);
     treeView->setModel(fileModel);
     treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     treeView->setRootIndex(fileModel->index(currentPath));
 
-    vbox->addWidget(pathEdit);
-    vbox->addWidget(treeView);
-
-    setCentralWidget(container);
-
     // setup slots
-
     connect(treeView, &FileList::doubleClicked, this, &Window::itemDoubleClicked);
     connect(treeView, &FileList::middleClicked, this, &Window::itemMiddleClicked);
     connect(pathEdit, &QLineEdit::returnPressed, this, &Window::pathEnter);
 
+    // slot actions
     connect(upAction, &QAction::triggered, this, &Window::upTriggered);
     connect(homeAction, &QAction::triggered, this, &Window::homeTriggered);
 }
