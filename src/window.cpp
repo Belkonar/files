@@ -16,12 +16,12 @@
 
 Window::Window() {
     currentPath = QDir::homePath();
-    setup();
+    init();
 }
 
 Window::Window(QString path) {
     currentPath = path;
-    setup();
+    init();
 }
 
 void Window::updatePath(QString path) {
@@ -33,11 +33,11 @@ void Window::updatePath(QString path) {
     }
 }
 
-void Window::setup() {
+void Window::init() {
     // settings
     QSettings settings;
 
-    int toolSize = settings.value("settings/toolbarIconSize", 20).toInt();
+    auto toolSize = settings.value("toolbarIconSize", 20).toInt();
 
     // internal attributes
     setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.
@@ -95,8 +95,6 @@ void Window::setup() {
 void Window::itemDoubleClicked(const QModelIndex &index) {
     if (!index.isValid()) return;
 
-    qDebug() << fileModel->filePath(index) << "is dir:" << fileModel->isDir(index);
-
     if (fileModel->isDir(index)) {
         updatePath(fileModel->filePath(index));
     }
@@ -113,8 +111,6 @@ void Window::itemMiddleClicked(const QModelIndex &index) {
 }
 
 void Window::pathEnter() {
-    qDebug() << "enter pressed";
-
     QDir target(pathEdit->text());
 
     if (target.exists()) {

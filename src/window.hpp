@@ -27,7 +27,7 @@ private:
     QFileSystemModel *fileModel;
     QLineEdit *pathEdit;
 
-    void setup();
+    void init();
 
 private slots:
     void itemDoubleClicked(const QModelIndex &index);
