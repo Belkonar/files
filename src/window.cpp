@@ -34,14 +34,15 @@ void Window::updatePath(QString path) {
 }
 
 void Window::setup() {
-    // start preamble
+    // settings
     QSettings settings;
 
+    int toolSize = settings.value("settings/toolbarIconSize", 20).toInt();
+
+    // internal attributes
     setAttribute(Qt::WA_DeleteOnClose); // Super important, it's what makes windows delete themselves.
     setMinimumSize(300, 200);
     resize(600, 400);
-
-    int toolSize = settings.value("settings/toolbarIconSize", 20).toInt();
 
     // start actions
     auto homeAction = new QAction("Home", this);
