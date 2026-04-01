@@ -1,9 +1,11 @@
 #include "./window.hpp"
 #include "file_list.hpp"
 
+#include <QtCore/qcontainerfwd.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qlogging.h>
 #include <QtCore/qnamespace.h>
+#include <QtCore/qprocess.h>
 #include <QtCore/qsettings.h>
 #include <QtGui/qaction.h>
 #include <QtGui/qfilesystemmodel.h>
@@ -37,6 +39,9 @@ void Window::init() {
     // settings
     QSettings settings;
 
+    // test settings
+    settings.setValue("opener/mp4", QStringList{"open", "/Applications/VLC.app"});
+
     auto toolSize = settings.value("toolbarIconSize", 20).toInt();
 
     // internal attributes
@@ -52,17 +57,19 @@ void Window::init() {
     upAction->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::GoUp));
 
     // init widgets
-    auto container = new QWidget();
-    auto toolbar = new QToolBar();
-    auto vbox = new QVBoxLayout(container);
     fileModel = new QFileSystemModel();
     treeView = new FileList();
     pathEdit = new QLineEdit();
+    auto container = new QWidget();
+    auto toolbar = new QToolBar();
+    auto vbox = new QVBoxLayout();
 
     // layouts
     vbox->addWidget(toolbar);
     vbox->setContentsMargins(0, 5, 0, 5);
     vbox->addWidget(treeView);
+
+    container->setLayout(vbox);
 
     setCentralWidget(container);
 
@@ -97,7 +104,46 @@ void Window::itemDoubleClicked(const QModelIndex &index) {
 
     if (fileModel->isDir(index)) {
         updatePath(fileModel->filePath(index));
+        return;
     }
+
+    QSettings settings;
+
+    auto fileName = fileModel->fileName(index);
+    auto filePath = fileModel->filePath(index);
+
+    QString extension;
+
+    if (!fileName.contains(".")) {
+        // TODO: no extension
+        extension = "none";
+    } else {
+        extension = fileName.split(".").last();
+    }
+
+    auto sKey = QString("opener/%1").arg(extension);
+    auto openerSetting = settings.value(sKey);
+
+    if (openerSetting.isNull()) {
+        // TODO: open dialog
+        return;
+    }
+
+    auto opener = openerSetting.toStringList();
+
+    auto program = opener.first();
+    QStringList args;
+
+    if (opener.length() > 1) {
+        args = opener.sliced(1);
+    }
+
+    args.append(filePath);
+
+    QProcess proc;
+    proc.setProgram(program);
+    proc.setArguments(args);
+    proc.startDetached();
 }
 
 void Window::itemMiddleClicked(const QModelIndex &index) {
