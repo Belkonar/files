@@ -27,8 +27,6 @@ private:
     QFileSystemModel *fileModel;
     QLineEdit *pathEdit;
 
-    void init();
-
 private slots:
     void itemDoubleClicked(const QModelIndex &index);
     void itemMiddleClicked(const QModelIndex &index);

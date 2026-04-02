@@ -1,4 +1,5 @@
 #include "./window.hpp"
+#include "dialog_open_file.hpp"
 #include "file_list.hpp"
 
 #include <QtCore/qcontainerfwd.h>
@@ -16,26 +17,11 @@
 #include <QtWidgets/qtoolbutton.h>
 #include <QtWidgets/qtreeview.h>
 
-Window::Window() {
-    currentPath = QDir::homePath();
-    init();
-}
+Window::Window() : Window(QDir::homePath()) {}
 
 Window::Window(QString path) {
     currentPath = path;
-    init();
-}
 
-void Window::updatePath(QString path) {
-    QDir p(path);
-    if (p.exists()) {
-        currentPath = path;
-        treeView->setRootIndex(fileModel->index(currentPath));
-        pathEdit->setText(currentPath);
-    }
-}
-
-void Window::init() {
     // settings
     QSettings settings;
 
@@ -99,6 +85,15 @@ void Window::init() {
     connect(homeAction, &QAction::triggered, this, &Window::homeTriggered);
 }
 
+void Window::updatePath(QString path) {
+    QDir p(path);
+    if (p.exists()) {
+        currentPath = path;
+        treeView->setRootIndex(fileModel->index(currentPath));
+        pathEdit->setText(currentPath);
+    }
+}
+
 void Window::itemDoubleClicked(const QModelIndex &index) {
     if (!index.isValid()) return;
 
@@ -126,6 +121,7 @@ void Window::itemDoubleClicked(const QModelIndex &index) {
 
     if (openerSetting.isNull()) {
         // TODO: open dialog
+        (new OpenFileDialog(this, filePath, extension))->show();
         return;
     }
 
