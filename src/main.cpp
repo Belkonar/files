@@ -14,12 +14,6 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationDomain("belkonar.com");
     QCoreApplication::setApplicationName("Files");
 
-    QSettings test;
-    qDebug() << test.fileName() << test.value("hi/dave");
-    test.setValue("hi/dave", 23);
-
-    qInfo() << "path:" << QDir::homePath() << QDir::drives();
-
     (new Window())->show();
 
     return a.exec();

@@ -4,6 +4,7 @@
 #include <QtCore/qnamespace.h>
 #include <QtCore/qtclasshelpermacros.h>
 #include <QtCore/qtmetamacros.h>
+#include <QtCore/qtypes.h>
 #include <QtGui/qevent.h>
 #include <QtWidgets/qabstractitemview.h>
 #include <QtWidgets/qtreeview.h>
@@ -16,6 +17,14 @@ class FileList : public QTreeView {
 public:
     FileList() : QTreeView() {
         setSelectionMode(QAbstractItemView::ExtendedSelection);
+    }
+
+    bool hasSelection() {
+        return selectionModel()->hasSelection();
+    }
+
+    bool areMultipleSelected() {
+        return selectionModel()->selectedRows().count() > 1;
     }
 
 protected:
