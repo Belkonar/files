@@ -13,14 +13,9 @@
 class FileList : public QTreeView {
     Q_OBJECT
 
-signals:
-    void middleClicked(const QModelIndex &index);
-
-private:
-    bool isValidIndex(QPersistentModelIndex *index) {
-        bool isValid = (index->row() >= 0) && (index->column() >= 0) && (index->model() == model());
-
-        return isValid;
+public:
+    FileList() : QTreeView() {
+        setSelectionMode(QAbstractItemView::ExtendedSelection);
     }
 
 protected:
@@ -34,4 +29,14 @@ protected:
 
         QTreeView::mouseReleaseEvent(event);
     }
+
+private:
+    bool isValidIndex(QPersistentModelIndex *index) {
+        bool isValid = (index->row() >= 0) && (index->column() >= 0) && (index->model() == model());
+
+        return isValid;
+    }
+
+signals:
+    void middleClicked(const QModelIndex &index);
 };
