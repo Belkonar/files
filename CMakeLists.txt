@@ -16,8 +16,6 @@ set(SOURCES
     ./src/window.cpp
     ./src/window.hpp
     ./src/file_list.hpp
-    ./src/dialog_open_file.cpp
-    ./src/dialog_open_file.hpp
 )
 
 qt_add_executable(files ${EXE_EXTRAS} ${SOURCES})

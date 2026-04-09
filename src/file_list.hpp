@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QTreeView>
 #include <QtCore/qlogging.h>
 #include <QtCore/qnamespace.h>
 #include <QtCore/qtclasshelpermacros.h>
@@ -7,7 +8,6 @@
 #include <QtCore/qtypes.h>
 #include <QtGui/qevent.h>
 #include <QtWidgets/qabstractitemview.h>
-#include <QtWidgets/qtreeview.h>
 
 // NOTE: This is currently a single header due simply to it being tiny. I may rework a bunch of it later.
 // and If I do it'll be split apart.

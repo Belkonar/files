@@ -1,6 +1,5 @@
 #include "./window.hpp"
-#include "dialog_open_file.hpp"
-#include "file_list.hpp"
+#include "./file_list.hpp"
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qdir.h>
@@ -120,12 +119,13 @@ void Window::itemDoubleClicked(const QModelIndex &index) {
     auto openerSetting = settings.value(sKey);
 
     if (openerSetting.isNull()) {
-        // TODO: open dialog
-        (new OpenFileDialog(this, filePath, extension))->show();
-        return;
+        // Use the default system opener.
+        openerSetting = QStringList({"open"});
     }
 
     auto opener = openerSetting.toStringList();
+
+    qDebug() << opener;
 
     auto program = opener.first();
     QStringList args;
