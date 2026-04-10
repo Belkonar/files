@@ -17,6 +17,10 @@ class FileList : public QTreeView {
 public:
     FileList() : QTreeView() {
         setSelectionMode(QAbstractItemView::ExtendedSelection);
+        setExpandsOnDoubleClick(false);
+        setRootIsDecorated(false);
+        setItemsExpandable(false);
+        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     }
 
     bool hasSelection() {
@@ -25,6 +29,10 @@ public:
 
     bool areMultipleSelected() {
         return selectionModel()->selectedRows().count() > 1;
+    }
+
+    bool itemsExpandable() {
+        return false;
     }
 
 protected:

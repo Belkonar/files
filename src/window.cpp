@@ -69,10 +69,7 @@ Window::Window(QString path) {
 
     fileModel->setRootPath(currentPath);
 
-    treeView->setExpandsOnDoubleClick(false);
-    treeView->setItemsExpandable(false);
     treeView->setModel(fileModel);
-    treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     treeView->setRootIndex(fileModel->index(currentPath));
 
     // setup slots
