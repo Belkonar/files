@@ -70,6 +70,7 @@ Window::Window(QString path) {
     fileModel->setRootPath(currentPath);
 
     treeView->setExpandsOnDoubleClick(false);
+    treeView->setItemsExpandable(false);
     treeView->setModel(fileModel);
     treeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     treeView->setRootIndex(fileModel->index(currentPath));
@@ -124,8 +125,6 @@ void Window::itemDoubleClicked(const QModelIndex &index) {
     }
 
     auto opener = openerSetting.toStringList();
-
-    qDebug() << opener;
 
     auto program = opener.first();
     QStringList args;
